@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title>Weather Dashboard</title>
+        <link rel="stylesheet" href="style.css"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+
+    </head>
+    <body>
+        <header style="background-color: #444444; padding: 15px;">
+           <h1 style="color: white; text-align: center;">Weather Dashboard</h1>
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <label for="citySearch" style="font-size: large; font-weight: bold;">Search for a City:</label>
+                    <div class="input-group">
+                    <input type="text" class="form-control" id="citySearch">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="button">Search</button>
+                    </div>
+                    </div>
+                    <div id="searchedCities"></div>
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="script.js"></script>
+    </body>
+</html>
