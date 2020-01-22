@@ -1,0 +1,18 @@
+.favorable {
+    background-color: green;
+    color: white;
+};
+
+.moderate {
+    background-color: darkkhaki;
+    color: white;
+};
+
+.severe {
+    background-color: red;
+    color: white;
+};
+
+img {
+    background-color: blue;
+};

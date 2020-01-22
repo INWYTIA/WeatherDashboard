@@ -51,7 +51,7 @@ function makeForecast (newFrcst) {
         var humDiv = $('<div>');
         current.attr('class', 'col');
         dateDiv.attr('class', 'row');
-        picDiv.attr({class: 'row', src: 'https://openweathermap.org/img/wn/' + picf + '.png'});
+        picDiv.attr({class: 'row frcstbx', src: 'https://openweathermap.org/img/wn/' + picf + '.png'});
         tempDiv.attr('class', 'row');
         humDiv.attr('class', 'row');
         dateDiv.text(s);
@@ -95,7 +95,17 @@ function update (place) {
             url : uvURL,
             method : 'GET',
         }).done(function (uvVar) {
-            $('#uvNow').text(uvVar.value);
+            var uvDiv = $('#uvNow');
+            var uvIndex = uvVar.value;
+            uvDiv.removeClass('favorable moderate severe');
+            if (uvIndex < 3) {
+                uvDiv.addClass('favorable');
+            } else if (uvIndex > 5) {
+                uvDiv.addClass('severe');
+            } else {
+                uvDiv.addClass('moderate');
+            };
+            uvDiv.text(uvIndex);
             console.log(uvVar);
         });
         console.log(response);
