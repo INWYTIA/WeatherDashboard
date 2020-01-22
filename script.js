@@ -10,9 +10,10 @@
 
 //uv url = 
 //api.openweathermap.org/data/2.5/uvi?lat=37.75&lon=-122.37
-//http://api.openweathermap.org/data/2.5/uvi/forecast?appid={appid}&lat={lat}&lon={lon}&cnt={days} 
+//http://api.openweathermap.org/data/2.5/uvi?lat=37.75&lon=-122.37&appid={appid}
 
 var prvCities = [];
+var dayMarkers = [0, 8, 16, 24, 32,];
 
 function getList () {
     var oldList = JSON.parse(localStorage.getItem('prvCities'));
@@ -26,7 +27,7 @@ function getList () {
 
 function populateList (lastCity) {
     var newBtn = $('<button>');
-    newBtn.attr({type:'button', class:'list-group-item list-group-item-action prvCity'});
+    newBtn.attr({type:'button', class:'list-group-item list-group-item-action prvCity', datacity: lastCity});
     newBtn.text(lastCity);
     $('#searchedCities').append(newBtn);
 };
@@ -35,21 +36,88 @@ function saveList () {
     localStorage.setItem('prvCities', JSON.stringify(prvCities));
 };
 
-$('#searchBtn').on('click', function() {
-    var city = $('#citySearch').val();
-    var queryURL = 'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&APPID=cad9eb6e38bd8ec8d96c293c18381b8e'
+function makeForecast (newFrcst) {
+    $('#frcst').empty();
+    dayMarkers.forEach(function (myDate) {
+        var time = newFrcst.list[myDate].dt;
+        var picf = newFrcst.list[myDate].weather[0].icon;
+        var tempf = newFrcst.list[myDate].main.temp;
+        var humf = newFrcst.list[myDate].main.humidity;
+        var s = new Date(time * 1000).toLocaleDateString("en-US");
+        var current = $('<div>');
+        var dateDiv = $('<div>');
+        var picDiv = $('<img>');
+        var tempDiv = $('<div>');
+        var humDiv = $('<div>');
+        current.attr('class', 'col');
+        dateDiv.attr('class', 'row');
+        picDiv.attr({class: 'row', src: 'https://openweathermap.org/img/wn/' + picf + '.png'});
+        tempDiv.attr('class', 'row');
+        humDiv.attr('class', 'row');
+        dateDiv.text(s);
+        tempDiv.text('Temp: ' + tempf + ' \u00B0F');
+        humDiv.text('Humidity: ' + humf + '%');
+        current.append(dateDiv);
+        current.append(picDiv);
+        current.append(tempDiv);
+        current.append(humDiv);
+        $('#frcst').append(current);
+    });
+};
+
+function update (place) {
+    var queryURL = 'http://api.openweathermap.org/data/2.5/weather?q=' + place + '&units=imperial&APPID=cad9eb6e38bd8ec8d96c293c18381b8e';
+    var frcstURL = 'http://api.openweathermap.org/data/2.5/forecast?q=' + place + '&units=imperial&APPID=cad9eb6e38bd8ec8d96c293c18381b8e';
     $.ajax({
         url : queryURL,
         method : 'GET',
     }).done(function (response) {
-        if (prvCities.indexOf(response.name) < 0) {
-        prvCities.push(response.name)};
+        var lat = response.coord.lat;
+        var lon = response.coord.lon;
+        var uvURL = 'http://api.openweathermap.org/data/2.5/uvi?lat=' + lat + '&lon=' + lon + '&appid=cad9eb6e38bd8ec8d96c293c18381b8e'
+        var cityName = response.name;
+        var tempNow = response.main.temp;
+        var humNow = response.main.humidity;
+        var windNow = response.wind.speed;
+        var pic = response.weather[0].icon;
+        if (prvCities.indexOf(cityName) < 0) {
+            prvCities.push(cityName)
+        };
         saveList();
         $('#searchedCities').empty();
         prvCities.forEach(populateList);
+        $('#myCity').text(cityName);
+        $('#tempNow').text('Temperature: ' + tempNow + ' \u00B0F');
+        $('#humNow').text('Humidity: ' + humNow + '%');
+        $('#windNow').text('Wind Speed: ' + windNow + ' MPH');
+        $('#iconNow').attr('src', 'https://openweathermap.org/img/wn/' + pic + '.png')
+        $.ajax({
+            url : uvURL,
+            method : 'GET',
+        }).done(function (uvVar) {
+            $('#uvNow').text(uvVar.value);
+            console.log(uvVar);
+        });
         console.log(response);
         console.log(prvCities);
-    })
+    });
+    $.ajax({
+        url : frcstURL,
+        method : 'GET',
+    }).done(function (forecast) {
+        makeForecast(forecast);
+        console.log(forecast);
+    });
+}
+
+$('#searchBtn').on('click', function() {
+    var city = $('#citySearch').val();
+    update(city);
+});
+
+$(document).on("click", ".prvCity", function () {
+    var location = $(this).attr("datacity");
+    update(location);
 });
 
 getList();
