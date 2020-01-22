@@ -13,18 +13,48 @@
         </header>
         <div class="container">
             <div class="row">
-                <div class="col">
+                <div class="col-md-3">
+                    <div class="row" style="margin-bottom: 15px;">
                     <label for="citySearch" style="font-size: large; font-weight: bold;">Search for a City:</label>
                     <div class="input-group">
                     <input type="text" class="form-control" id="citySearch">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="button">Search</button>
+                        <button class="btn btn-outline-primary" type="button" id="searchBtn">Search</button>
                     </div>
                     </div>
-                    <div id="searchedCities"></div>
+                    </div>
+                    <div class="row list-group" id="searchedCities">
+                        
+                    </div>
                 </div>
-                <div class="col">
+                <div class="col-md-9" style="padding: 20px;">
+                    <div class="row">
+                        <div class="col" style="padding: 15px; margin-left: 15px;">
+                            <div class="row">
+                            <h3>Your City</h3>
+                            <img src="">
+                            </div>
+                            <div class="row">
+                            <p id="tempNow">Temperature: </p>
+                            </div>
+                            <div class="row">
+                            <p id="humNow">Humidity: </p>
+                            </div>
+                            <div class="row">
+                            <p id="windNow">Wind Speed: </p>
+                            </div>
+                            <div class="row">
+                            <p>UV Index: </p>
+                            <p id="uvNow"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h4 style="margin: 10px;">5-Day Forcast:</h4>
+                    </div>
+                    <div class="row">
 
+                    </div>
                 </div>
             </div>
 
