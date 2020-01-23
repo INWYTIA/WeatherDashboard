@@ -1,5 +1,5 @@
 var prvCities = [];
-var dayMarkers = [0, 8, 16, 24, 32,];
+var dayMarkers = [3, 11, 19, 27, 35,];
 
 function getList () {
     var oldList = JSON.parse(localStorage.getItem('prvCities'));
