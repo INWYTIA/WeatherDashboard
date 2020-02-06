@@ -52,15 +52,15 @@ function makeForecast (newFrcst) {
 };
 
 function update (place) {
-    var queryURL = 'http://api.openweathermap.org/data/2.5/weather?q=' + place + '&units=imperial&APPID=cad9eb6e38bd8ec8d96c293c18381b8e';
-    var frcstURL = 'http://api.openweathermap.org/data/2.5/forecast?q=' + place + '&units=imperial&APPID=cad9eb6e38bd8ec8d96c293c18381b8e';
+    var queryURL = 'https://api.openweathermap.org/data/2.5/weather?q=' + place + '&units=imperial&APPID=cad9eb6e38bd8ec8d96c293c18381b8e';
+    var frcstURL = 'https://api.openweathermap.org/data/2.5/forecast?q=' + place + '&units=imperial&APPID=cad9eb6e38bd8ec8d96c293c18381b8e';
     $.ajax({
         url : queryURL,
         method : 'GET',
     }).done(function (response) {
         var lat = response.coord.lat;
         var lon = response.coord.lon;
-        var uvURL = 'http://api.openweathermap.org/data/2.5/uvi?lat=' + lat + '&lon=' + lon + '&appid=cad9eb6e38bd8ec8d96c293c18381b8e'
+        var uvURL = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + lat + '&lon=' + lon + '&appid=cad9eb6e38bd8ec8d96c293c18381b8e'
         var cityName = response.name;
         var tempNow = response.main.temp;
         var humNow = response.main.humidity;
